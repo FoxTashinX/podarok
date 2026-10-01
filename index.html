@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Для самого чуткого ветеринара 🐾</title>
+
+  <!-- Google Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: {
+              50: '#FFFDF9',
+              100: '#FAF7F2',
+              200: '#F5EFE6',
+              300: '#EFE3D3',
+              400: '#E3D1BC',
+            },
+            vanilla: {
+              50: '#FAF6F0',
+              100: '#F7EBE1',
+              200: '#EFE3D3',
+              300: '#E3CFBA',
+              700: '#8C7355',
+              800: '#6B5744',
+              900: '#4A3B2C',
+            },
+            sage: {
+              50: '#F4F7F4',
+              100: '#E2EBE4',
+              200: '#C8D6AF',
+              300: '#A3B899',
+              400: '#8BA888',
+              500: '#7A9A7B',
+              600: '#668065',
+              700: '#526E53',
+              800: '#3A523B',
+              900: '#273828',
+            },
+            lavender: {
+              50: '#FAF8FC',
+              100: '#E8E5F0',
+              200: '#D6C7E4',
+              300: '#B8A7D1',
+              400: '#9A86B8',
+              500: '#7E689B',
+              600: '#675282',
+              700: '#524169',
+              800: '#3D304E',
+            },
+            amberwarm: {
+              100: '#FEF3E2',
+              200: '#FAEBCE',
+              300: '#F5DCB0',
+              400: '#E0A96D',
+              500: '#CCA052',
+              600: '#B08038',
+              800: '#6E4B1F',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'pulse-gentle': 'pulseGentle 3s ease-in-out infinite',
+            'purr-rise': 'purrRise 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseGentle: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.85', transform: 'scale(0.98)' },
+            },
+            purrRise: {
+              '0%': { opacity: '0', transform: 'translate(-50%, 0px) scale(0.8)' },
+              '50%': { opacity: '1', transform: 'translate(-50%, -30px) scale(1.1)' },
+              '100%': { opacity: '0', transform: 'translate(-50%, -60px) scale(1)' },
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF7F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C8D6AF;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A3B899;
+    }
+
+    /* CSS Animations for Kitten */
+    @keyframes wagTail {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(14deg); }
+    }
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+    @keyframes earTwitch {
+      0%, 88%, 100% { transform: rotate(0deg); }
+      92% { transform: rotate(-6deg); }
+      96% { transform: rotate(4deg); }
+    }
+    @keyframes floatPaw {
+      0% { opacity: 0; transform: translateY(0) scale(0.6) rotate(0deg); }
+      20% { opacity: 0.9; }
+      100% { opacity: 0; transform: translateY(-80px) scale(1.2) rotate(15deg); }
+    }
+
+    .animate-tail {
+      transform-origin: 20% 90%;
+      animation: wagTail 3s ease-in-out infinite;
+    }
+    .animate-eyes {
+      transform-origin: center;
+      animation: blink 4s ease-in-out infinite;
+    }
+    .animate-ear-left {
+      transform-origin: bottom right;
+      animation: earTwitch 6s ease-in-out infinite;
+    }
+    .animate-ear-right {
+      transform-origin: bottom left;
+      animation: earTwitch 6s ease-in-out 0.5s infinite;
+    }
+
+    /* Envelope styling */
+    .envelope-flap {
+      clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-top-flap {
+      clip-path: polygon(0 0, 100% 0, 50% 58%);
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .envelope-open .envelope-top-flap {
+      transform: rotateX(180deg);
+    }
+
+    /* Glassmorphic elements */
+    .glass-card {
+      background: rgba(255, 253, 249, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(239, 227, 211, 0.6);
+    }
+    .glass-card-sage {
+      background: rgba(244, 247, 244, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(200, 214, 175, 0.5);
+    }
+    .glass-card-lavender {
+      background: rgba(250, 248, 252, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(214, 199, 228, 0.5);
+    }
+
+    /* Floating purr element */
+    .purr-toast {
+      position: absolute;
+      pointer-events: none;
+      animation: purrRise 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-cream-100 text-vanilla-900 font-sans min-h-screen relative overflow-x-hidden selection:bg-sage-200 selection:text-sage-900">
+
+  <!-- Background Canvas for Drifting Daisy Petals & Paw Prints -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- MAIN WRAPPER -->
+  <div class="relative z-10 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 md:p-8">
+
+    <!-- 1. INTERACTIVE OPENING & KITTEN MASCOT SECTION -->
+    <div id="envelope-section" class="w-full max-w-lg my-auto flex flex-col items-center justify-center transition-all duration-700">
+
+      <!-- Animated Kitten Mascot Sitting Above Envelope -->
+      <div class="relative w-40 h-36 mb-[-12px] z-20 transition-transform duration-300 hover:scale-105">
+        <svg viewBox="0 0 160 140" class="w-full h-full drop-shadow-md">
+          <!-- Tail -->
+          <path d="M 115 110 C 135 110, 145 85, 138 65 C 135 55, 125 55, 128 65 C 132 80, 122 98, 108 98"
+                fill="none" stroke="#EFE3D3" stroke-width="12" stroke-linecap="round" class="animate-tail" />
+          <path d="M 115 110 C 135 110, 145 85, 138 65 C 135 55, 125 55, 128 65 C 132 80, 122 98, 108 98"
+                fill="none" stroke="#A3B899" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 4" class="animate-tail" />
+
+          <!-- Body -->
+          <ellipse cx="80" cy="100" rx="36" ry="28" fill="#F7EBE1" />
+          <ellipse cx="80" cy="102" rx="26" ry="20" fill="#FAF7F2" />
+
+          <!-- Paws resting on top -->
+          <ellipse cx="62" cy="120" rx="10" ry="7" fill="#FFFDF9" stroke="#EFE3D3" stroke-width="2" />
+          <ellipse cx="98" cy="120" rx="10" ry="7" fill="#FFFDF9" stroke="#EFE3D3" stroke-width="2" />
+          <!-- Toe lines -->
+          <path d="M 58 120 L 58 123 M 62 121 L 62 124 M 66 120 L 66 123" stroke="#A3B899" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M 94 120 L 94 123 M 98 121 L 98 124 M 102 120 L 102 123" stroke="#A3B899" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Head -->
+          <ellipse cx="80" cy="62" rx="34" ry="28" fill="#F7EBE1" />
+
+          <!-- Ears -->
+          <!-- Left Ear -->
+          <g class="animate-ear-left">
+            <path d="M 50 46 L 36 18 L 64 36 Z" fill="#F7EBE1" />
+            <path d="M 50 43 L 40 24 L 60 36 Z" fill="#D6C7E4" opacity="0.7" />
+          </g>
+          <!-- Right Ear -->
+          <g class="animate-ear-right">
+            <path d="M 110 46 L 124 18 L 96 36 Z" fill="#F7EBE1" />
+            <path d="M 110 43 L 120 24 L 100 36 Z" fill="#D6C7E4" opacity="0.7" />
+          </g>
+
+          <!-- Cheeks -->
+          <ellipse cx="60" cy="68" rx="6" ry="3.5" fill="#C8D6AF" opacity="0.4" />
+          <ellipse cx="100" cy="68" rx="6" ry="3.5" fill="#C8D6AF" opacity="0.4" />
+
+          <!-- Eyes -->
+          <g class="animate-eyes">
+            <ellipse cx="64" cy="58" rx="4.5" ry="5.5" fill="#4A3B2C" />
+            <ellipse cx="96" cy="58" rx="4.5" ry="5.5" fill="#4A3B2C" />
+            <!-- Eye Highlights -->
+            <circle cx="62.5" cy="56" r="1.8" fill="#FFFFFF" />
+            <circle cx="94.5" cy="56" r="1.8" fill="#FFFFFF" />
+          </g>
+
+          <!-- Nose & Mouth -->
+          <polygon points="80,64 77,61 83,61" fill="#8BA888" />
+          <path d="M 77 66 Q 80 70 83 66" fill="none" stroke="#6B5744" stroke-width="1.8" stroke-linecap="round" />
+
+          <!-- Whiskers -->
+          <path d="M 52 64 L 34 61 M 52 67 L 36 68 M 52 70 L 38 75" stroke="#8C7355" stroke-width="1.2" stroke-linecap="round" opacity="0.6" />
+          <path d="M 108 64 L 126 61 M 108 67 L 124 68 M 108 70 L 122 75" stroke="#8C7355" stroke-width="1.2" stroke-linecap="round" opacity="0.6" />
+
+          <!-- Small Daisy Flower on Ear -->
+          <g transform="translate(112, 34) scale(0.7)">
+            <circle cx="0" cy="-6" r="3" fill="#FFFDF9" />
+            <circle cx="6" cy="0" r="3" fill="#FFFDF9" />
+            <circle cx="0" cy="6" r="3" fill="#FFFDF9" />
+            <circle cx="-6" cy="0" r="3" fill="#FFFDF9" />
+            <circle cx="4" cy="4" r="3" fill="#FFFDF9" />
+            <circle cx="-4" cy="-4" r="3" fill="#FFFDF9" />
+            <circle cx="4" cy="-4" r="3" fill="#FFFDF9" />
+            <circle cx="-4" cy="4" r="3" fill="#FFFDF9" />
+            <circle cx="0" cy="0" r="3.5" fill="#CCA052" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Envelope Box -->
+      <div id="envelope" class="relative w-full bg-vanilla-100 rounded-3xl shadow-2xl border-2 border-vanilla-200 overflow-hidden cursor-pointer group transform transition-all duration-500 hover:-translate-y-1 hover:shadow-3xl">
+
+        <!-- Inner Pattern Decorative Border -->
+        <div class="absolute inset-2 border border-dashed border-vanilla-300 rounded-2xl pointer-events-none z-10"></div>
+
+        <!-- Envelope Body Cover -->
+        <div class="relative h-64 sm:h-72 w-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-cream-50 via-vanilla-100 to-cream-200">
+
+          <!-- Top Triangle Flap visual -->
+          <div class="absolute top-0 inset-x-0 h-32 bg-vanilla-200/50 envelope-top-flap border-b border-vanilla-300/40"></div>
+
+          <!-- Paw-print Wax Seal Button -->
+          <div class="relative z-20 my-auto flex flex-col items-center">
+            <button id="open-card-btn" class="relative group-hover:scale-110 transition-transform duration-300 focus:outline-none">
+              <!-- Seal outer glow -->
+              <div class="absolute -inset-2 rounded-full bg-sage-300/40 blur-md group-hover:bg-sage-400/50 transition-all"></div>
+
+              <!-- Wax Seal Circle -->
+              <div class="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full bg-gradient-to-br from-sage-600 via-sage-700 to-sage-800 text-cream-50 shadow-lg border-2 border-sage-400 flex flex-col items-center justify-center p-2 transform active:scale-95">
+                <i data-lucide="paw-print" class="w-9 h-9 text-cream-100 transform -rotate-12 transition-transform group-hover:rotate-0"></i>
+                <span class="text-[10px] font-medium tracking-widest uppercase text-sage-200 mt-0.5">Открыть</span>
+              </div>
+            </button>
+
+            <!-- Prompt Text -->
+            <p class="mt-5 text-sm sm:text-base font-serif italic text-vanilla-800 tracking-wide font-medium">
+              Тебе послание... Нажми на печать 🐾
+            </p>
+            <span class="mt-1 text-xs text-sage-700 font-sans bg-sage-100/80 px-3 py-1 rounded-full border border-sage-200/60">
+              Специально для лучшего ветврача ✨
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. MAIN CARD CONTENT (Initially hidden, revealed after envelope click) -->
+    <main id="main-card" class="hidden w-full max-w-4xl mx-auto space-y-10 transition-all duration-1000 opacity-0 transform translate-y-8">
+
+      <!-- HERO HEADER SECTION -->
+      <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl border border-vanilla-200 text-center relative overflow-hidden">
+        <!-- Background subtle decorative shapes -->
+        <div class="absolute -top-12 -left-12 w-40 h-40 bg-sage-200/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-12 -right-12 w-40 h-40 bg-lavender-200/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl mx-auto">
+          <!-- Subtle Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 text-sage-800 text-xs sm:text-sm font-medium border border-sage-200 shadow-sm mb-5">
+            <i data-lucide="stethoscope" class="w-4 h-4 text-sage-600"></i>
+            <span>Для самого чуткого ветеринара 🐾</span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-vanilla-900 tracking-tight leading-tight mb-4">
+            Моей нежной и любимой
+          </h1>
+
+          <!-- Heartfelt Message -->
+          <p class="text-base sm:text-lg text-vanilla-800 leading-relaxed font-sans font-normal mb-6">
+            Ты каждый день лечишь хвостиков, даришь им свою заботу и спасаешь маленькие жизни. Твоё доброе сердце согревает всё вокруг — и особенно меня. Пусть эта карточка дарит тебе столько же тепла, сколько ты ежедневно отдаешь миру! ✨
+          </p>
+
+          <div class="flex items-center justify-center gap-3 text-sage-700 font-serif italic text-sm sm:text-base">
+            <span class="h-px w-12 bg-sage-300"></span>
+            <span>С любовью и заботой</span>
+            <span class="h-px w-12 bg-sage-300"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE DUAL TIMERS SECTION -->
+      <section class="space-y-4">
+        <div class="text-center">
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-vanilla-900 flex items-center justify-center gap-2">
+            <i data-lucide="clock" class="w-6 h-6 text-sage-600"></i>
+            Наши важные моменты
+          </h2>
+          <p class="text-xs sm:text-sm text-vanilla-700 mt-1">Считаем каждую секунду с точностью до мгновения</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Counter 1: Знакомы с тобой -->
+          <div class="glass-card-sage rounded-3xl p-6 shadow-lg relative overflow-hidden group hover:shadow-xl transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="p-2.5 rounded-2xl bg-sage-200/80 text-sage-800">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-serif font-bold text-lg text-sage-900">Знакомы с тобой</h3>
+                  <p class="text-xs text-sage-700">9 февраля 2026 года</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-sage-200 text-sage-800 border border-sage-300">
+                Момент #1
+              </span>
+            </div>
+
+            <!-- Timer Grid -->
+            <div id="timer-known" class="grid grid-cols-4 gap-2 text-center">
+              <div class="bg-white/80 rounded-2xl p-3 border border-sage-200/80 shadow-sm">
+                <span id="known-days" class="block font-serif text-2xl sm:text-3xl font-bold text-sage-900">00</span>
+                <span class="text-[11px] font-medium text-sage-700 uppercase tracking-wider">дней</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-sage-200/80 shadow-sm">
+                <span id="known-hours" class="block font-serif text-2xl sm:text-3xl font-bold text-sage-900">00</span>
+                <span class="text-[11px] font-medium text-sage-700 uppercase tracking-wider">часов</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-sage-200/80 shadow-sm">
+                <span id="known-minutes" class="block font-serif text-2xl sm:text-3xl font-bold text-sage-900">00</span>
+                <span class="text-[11px] font-medium text-sage-700 uppercase tracking-wider">минут</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-sage-200/80 shadow-sm">
+                <span id="known-seconds" class="block font-serif text-2xl sm:text-3xl font-bold text-sage-900">00</span>
+                <span class="text-[11px] font-medium text-sage-700 uppercase tracking-wider">секунд</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Counter 2: Счастливы вместе -->
+          <div class="glass-card-lavender rounded-3xl p-6 shadow-lg relative overflow-hidden group hover:shadow-xl transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="p-2.5 rounded-2xl bg-lavender-200/80 text-lavender-800">
+                  <i data-lucide="heart" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-serif font-bold text-lg text-lavender-900">Счастливы вместе</h3>
+                  <p class="text-xs text-lavender-700">9 марта 2026 года</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-lavender-200 text-lavender-800 border border-lavender-300">
+                Момент #2
+              </span>
+            </div>
+
+            <!-- Timer Grid -->
+            <div id="timer-together" class="grid grid-cols-4 gap-2 text-center">
+              <div class="bg-white/80 rounded-2xl p-3 border border-lavender-200/80 shadow-sm">
+                <span id="together-days" class="block font-serif text-2xl sm:text-3xl font-bold text-lavender-900">00</span>
+                <span class="text-[11px] font-medium text-lavender-700 uppercase tracking-wider">дней</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-lavender-200/80 shadow-sm">
+                <span id="together-hours" class="block font-serif text-2xl sm:text-3xl font-bold text-lavender-900">00</span>
+                <span class="text-[11px] font-medium text-lavender-700 uppercase tracking-wider">часов</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-lavender-200/80 shadow-sm">
+                <span id="together-minutes" class="block font-serif text-2xl sm:text-3xl font-bold text-lavender-900">00</span>
+                <span class="text-[11px] font-medium text-lavender-700 uppercase tracking-wider">минут</span>
+              </div>
+              <div class="bg-white/80 rounded-2xl p-3 border border-lavender-200/80 shadow-sm">
+                <span id="together-seconds" class="block font-serif text-2xl sm:text-3xl font-bold text-lavender-900">00</span>
+                <span class="text-[11px] font-medium text-lavender-700 uppercase tracking-wider">секунд</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 4. "КОПИЛКА ТВОИХ РАДОСТЕЙ" SECTION -->
+      <section class="space-y-6">
+        <div class="text-center">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-vanilla-200 text-vanilla-800 text-xs font-semibold mb-2">
+            <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
+            Особенные радости
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-vanilla-900">Копилка твоих радостей</h2>
+          <p class="text-sm text-vanilla-700 mt-1">Твои самые любимые вещи, собраные с особой нежностью ✨</p>
+        </div>
+
+        <!-- Polaroid Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Polaroid 1: Особенное -->
+          <div class="bg-white rounded-3xl p-5 shadow-md hover:shadow-2xl border border-vanilla-200 transform hover:-translate-y-2 hover:rotate-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-44 rounded-2xl bg-gradient-to-br from-sage-100 via-sage-50 to-sage-200 border border-sage-200 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden mb-4">
+                <div class="p-3.5 bg-white/90 rounded-2xl text-sage-700 shadow-sm mb-3 transform group-hover:scale-110 transition-transform">
+                  <i data-lucide="cat" class="w-8 h-8"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-sage-900">Особенное</span>
+                <span class="text-xs text-sage-700 mt-0.5">Ветврач с добрым сердцем</span>
+              </div>
+              <div class="space-y-2 px-1">
+                <div class="flex items-center gap-2 text-sm font-medium text-vanilla-900">
+                  <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+                  <span>Спасение хвостиков</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-medium text-vanilla-900">
+                  <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+                  <span>Маленькие мурлыки</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-vanilla-100 text-right">
+              <span class="text-xs font-serif italic text-sage-600">🐾 Любовь к животным</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 2: Сладости -->
+          <div class="bg-white rounded-3xl p-5 shadow-md hover:shadow-2xl border border-vanilla-200 transform hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-44 rounded-2xl bg-gradient-to-br from-lavender-100 via-lavender-50 to-lavender-200 border border-lavender-200 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden mb-4">
+                <div class="p-3.5 bg-white/90 rounded-2xl text-lavender-700 shadow-sm mb-3 transform group-hover:scale-110 transition-transform">
+                  <i data-lucide="cookie" class="w-8 h-8"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-lavender-900">Сладости</span>
+                <span class="text-xs text-lavender-700 mt-0.5">Для сладких перерывов</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 px-1 text-xs">
+                <span class="bg-lavender-50 text-lavender-800 px-2.5 py-1.5 rounded-xl border border-lavender-200/60 font-medium text-center">Babyfox</span>
+                <span class="bg-lavender-50 text-lavender-800 px-2.5 py-1.5 rounded-xl border border-lavender-200/60 font-medium text-center">Maltesers</span>
+                <span class="bg-lavender-50 text-lavender-800 px-2.5 py-1.5 rounded-xl border border-lavender-200/60 font-medium text-center">Лимонная Fruittella</span>
+                <span class="bg-lavender-50 text-lavender-800 px-2.5 py-1.5 rounded-xl border border-lavender-200/60 font-medium text-center">Milka с печеньем</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-vanilla-100 text-right">
+              <span class="text-xs font-serif italic text-lavender-600">🍫 Вкусные радости</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 3: Цветы -->
+          <div class="bg-white rounded-3xl p-5 shadow-md hover:shadow-2xl border border-vanilla-200 transform hover:-translate-y-2 hover:rotate-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-44 rounded-2xl bg-gradient-to-br from-cream-200 via-vanilla-100 to-amberwarm-100 border border-vanilla-300 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden mb-4">
+                <div class="p-3.5 bg-white/90 rounded-2xl text-amberwarm-600 shadow-sm mb-3 transform group-hover:scale-110 transition-transform">
+                  <i data-lucide="flower-2" class="w-8 h-8"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-vanilla-900">Цветы</span>
+                <span class="text-xs text-vanilla-800 mt-0.5">Нежность природы</span>
+              </div>
+              <div class="space-y-2 px-1 text-sm font-medium text-vanilla-900">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amberwarm-500"></span>
+                  <span>Полевые ромашки</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amberwarm-500"></span>
+                  <span>Нежные гортензии</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amberwarm-500"></span>
+                  <span>Хризантемы</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-vanilla-100 text-right">
+              <span class="text-xs font-serif italic text-amberwarm-600">🌼 Цветущая гармония</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 4: Вкусняшки -->
+          <div class="bg-white rounded-3xl p-5 shadow-md hover:shadow-2xl border border-vanilla-200 transform hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-44 rounded-2xl bg-gradient-to-br from-amberwarm-100 via-cream-100 to-vanilla-200 border border-amberwarm-200 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden mb-4">
+                <div class="p-3.5 bg-white/90 rounded-2xl text-amberwarm-600 shadow-sm mb-3 transform group-hover:scale-110 transition-transform">
+                  <i data-lucide="ice-cream" class="w-8 h-8"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-vanilla-900">Вкусняшки</span>
+                <span class="text-xs text-vanilla-800 mt-0.5">Уютный перекус</span>
+              </div>
+              <div class="space-y-2 px-1 text-xs text-vanilla-900 font-medium">
+                <div class="p-2 rounded-xl bg-vanilla-50 border border-vanilla-200/80">
+                  🍿 Чипсы «Из печи» (нежный сыр и зелень)
+                </div>
+                <div class="p-2 rounded-xl bg-vanilla-50 border border-vanilla-200/80">
+                  🧀 Сырок «Свитлогорье»
+                </div>
+                <div class="p-2 rounded-xl bg-vanilla-50 border border-vanilla-200/80">
+                  🍦 Чисто ванильное мороженое & милкшейки
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-vanilla-100 text-right">
+              <span class="text-xs font-serif italic text-amberwarm-600">🧀 Любимые угощения</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 5: Фрукты -->
+          <div class="bg-white rounded-3xl p-5 shadow-md hover:shadow-2xl border border-vanilla-200 transform hover:-translate-y-2 hover:rotate-1 transition-all duration-300 flex flex-col justify-between group sm:col-span-2 lg:col-span-1">
+            <div>
+              <div class="h-44 rounded-2xl bg-gradient-to-br from-sage-100 via-amberwarm-100 to-vanilla-100 border border-sage-200 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden mb-4">
+                <div class="p-3.5 bg-white/90 rounded-2xl text-sage-700 shadow-sm mb-3 transform group-hover:scale-110 transition-transform">
+                  <i data-lucide="citrus" class="w-8 h-8"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-sage-900">Фрукты</span>
+                <span class="text-xs text-sage-700 mt-0.5">Сочные & свежие</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 px-1 text-xs font-medium">
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">🍊 Сладкие мандарины</span>
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">🍇 Виноград б/к</span>
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">💎 Гранат</span>
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">🍍 Ананас</span>
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">🍌 Бананы</span>
+                <span class="bg-sage-50 text-sage-800 p-2 rounded-xl border border-sage-200/60 text-center">🍊 Апельсин</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-vanilla-100 text-right">
+              <span class="text-xs font-serif italic text-sage-600">🍊 Витамины & радость</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. INTERACTIVE KITTEN MOOD BOOSTER ("МУРР-ТЕРАПИЯ") -->
+      <section class="glass-card-sage rounded-3xl p-6 sm:p-8 shadow-xl border border-sage-200 text-center relative overflow-hidden">
+
+        <div class="max-w-xl mx-auto space-y-5">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage-200 text-sage-800 text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="heart-handshake" class="w-4 h-4 text-sage-700"></i>
+            Интерактивный антистресс
+          </div>
+
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-sage-900">Мурр-терапия</h2>
+          <p class="text-sm sm:text-base text-sage-800">
+            Если день на смене выдался нелегким или просто хочется тепла — гладь котёнка и получай бесконечные порции заботы!
+          </p>
+
+          <!-- Interactive Button -->
+          <div class="relative inline-block my-2">
+            <button id="purr-btn" class="relative z-10 bg-gradient-to-r from-sage-600 to-sage-700 hover:from-sage-700 hover:to-sage-800 text-cream-50 font-medium px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transform active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 text-base sm:text-lg group cursor-pointer border border-sage-500">
+              <i data-lucide="sparkles" class="w-5 h-5 text-amberwarm-300 group-hover:rotate-12 transition-transform"></i>
+              <span>Погладить котёнка / Нажми, если устала после смены</span>
+              <i data-lucide="paw-print" class="w-5 h-5 text-sage-200 group-hover:scale-110 transition-transform"></i>
+            </button>
+            <div class="absolute -inset-1 rounded-2xl bg-sage-300/50 blur-lg pointer-events-none"></div>
+          </div>
+
+          <!-- Dynamic Compliment Display Box -->
+          <div id="compliment-box" class="hidden transition-all duration-500 mt-6 p-5 bg-white/95 backdrop-blur rounded-2xl border-2 border-sage-300 shadow-md text-center transform scale-95 opacity-0">
+            <div class="flex items-center justify-center gap-2 text-sage-700 mb-2">
+              <i data-lucide="heart" class="w-4 h-4 text-sage-600 fill-sage-500"></i>
+              <span class="text-xs font-semibold uppercase tracking-wider">Записка с теплом</span>
+              <i data-lucide="heart" class="w-4 h-4 text-sage-600 fill-sage-500"></i>
+            </div>
+            <p id="compliment-text" class="font-serif text-lg sm:text-xl font-semibold text-vanilla-900 leading-snug">
+              <!-- Compliment inserted here -->
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="text-center py-6 text-xs text-vanilla-700 space-y-2">
+        <p class="font-serif italic text-sm">«Самое главное лечится не лекарствами, а добротой» 🍃</p>
+        <p>© Created with endless love for the best vet doctor 🐾</p>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // --- 1. Lucide Icons Initialization ---
+    lucide.createIcons();
+
+    // --- 2. Background Canvas Animation (Daisy Petals & Paw Prints) ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Particle Classes
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height - height;
+        this.size = Math.random() * 8 + 6;
+        this.speedY = Math.random() * 0.8 + 0.4;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.02;
+        this.opacity = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.y * 0.01) * 0.5 + this.speedX;
+        this.rotation += this.rotSpeed;
+
+        if (this.y > height + 20) {
+          this.reset();
+          this.y = -20;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.opacity;
+
+        // Draw Daisy Petal
+        ctx.beginPath();
+        ctx.fillStyle = '#FAF7F2';
+        ctx.ellipse(0, 0, this.size, this.size * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Tiny soft center highlight
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(224, 169, 109, 0.4)';
+        ctx.arc(0, 0, this.size * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    class FloatingPaw {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 12 + 10;
+        this.speedY = -(Math.random() * 0.4 + 0.2);
+        this.opacity = Math.random() * 0.18 + 0.05;
+        this.rot = (Math.random() - 0.5) * 0.4;
+      }
+      update() {
+        this.y += this.speedY;
+        if (this.y < -30) {
+          this.reset();
+          this.y = height + 20;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rot);
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = '#A3B899';
+
+        // Main pad
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size, this.size * 0.8, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4 toes
+        const toeRadius = this.size * 0.35;
+        const angles = [-0.9, -0.3, 0.3, 0.9];
+        const distance = this.size * 1.3;
+
+        angles.forEach(ang => {
+          const tx = Math.sin(ang) * distance;
+          const ty = -Math.cos(ang) * distance * 0.8;
+          ctx.beginPath();
+          ctx.arc(tx, ty, toeRadius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.restore();
+      }
+    }
+
+    const petals = Array.from({ length: 28 }, () => new Petal());
+    const paws = Array.from({ length: 12 }, () => new FloatingPaw());
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, width, height);
+      paws.forEach(p => { p.update(); p.draw(); });
+      petals.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+
+    // --- 3. Interactive Opening Animation & Confetti ---
+    const envelopeSection = document.getElementById('envelope-section');
+    const envelope = document.getElementById('envelope');
+    const mainCard = document.getElementById('main-card');
+    const openCardBtn = document.getElementById('open-card-btn');
+
+    function openEnvelope() {
+      envelope.classList.add('envelope-open');
+
+      // Trigger Daisy & Golden Sparkle Confetti
+      const count = 200;
+      const defaults = {
+        origin: { y: 0.6 },
+        colors: ['#A3B899', '#E8E5F0', '#E0A96D', '#FAF7F2', '#CCA052']
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+      });
+      fire(0.2, {
+        spread: 60,
+      });
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        scalar: 1.2
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 45,
+      });
+
+      // Smooth transition to main card
+      setTimeout(() => {
+        envelopeSection.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        setTimeout(() => {
+          envelopeSection.style.display = 'none';
+          mainCard.classList.remove('hidden');
+          setTimeout(() => {
+            mainCard.classList.remove('opacity-0', 'translate-y-8');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 50);
+        }, 500);
+      }, 700);
+    }
+
+    envelope.addEventListener('click', openEnvelope);
+
+
+    // --- 4. Live Dual Timers Logic ---
+    // Counter 1: "Знакомы с тобой:" Since Feb 9, 2026, 00:00:00
+    const knownDate = new Date('2026-02-09T00:00:00');
+    // Counter 2: "Счастливы вместе:" Since March 9, 2026, 00:00:00
+    const togetherDate = new Date('2026-03-09T00:00:00');
+
+    function updateTimer(targetDate, daysElId, hoursElId, minsElId, secsElId) {
+      const now = new Date();
+      const diff = Math.abs(now - targetDate);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById(daysElId).innerText = String(days).padStart(2, '0');
+      document.getElementById(hoursElId).innerText = String(hours).padStart(2, '0');
+      document.getElementById(minsElId).innerText = String(minutes).padStart(2, '0');
+      document.getElementById(secsElId).innerText = String(seconds).padStart(2, '0');
+    }
+
+    function updateAllTimers() {
+      updateTimer(knownDate, 'known-days', 'known-hours', 'known-minutes', 'known-seconds');
+      updateTimer(togetherDate, 'together-days', 'together-hours', 'together-minutes', 'together-seconds');
+    }
+
+    updateAllTimers();
+    setInterval(updateAllTimers, 1000);
+
+
+    // --- 5. Interactive Kitten Mood Booster ("Мурр-терапия") ---
+    const compliments = [
+      "Ты делаешь этот мир лучше и добрее каждый день! 🐾",
+      "Даже самые капризные котики знают, что у тебя самые мягкие и добрые руки! ✨",
+      "Отдохни, мурлыка! Ты сегодня отлично потрудилась. 🌼",
+      "Твоя улыбка согревает сильнее, чем горячий милкшейк и мурчащий котёнок на коленях! 🥛🐱",
+      "Ты самый замечательный доктор и самый любимый человек! 💚",
+      "Пусть вся усталость улетучится, а вместо неё придет уют, пачка Babyfox и любимый чай! 🍫",
+      "Твоя забота лечит не только пушистые лапки, но и мою душу. 🍃",
+      "Отправляю тебе крепкое обнимательное «мурр» и самый нежный букет ромашек! 🌼",
+      "Ты — настоящий супергерой в белом халате для десятков маленьких хвостиков! 🩺✨"
+    ];
+
+    const purrBtn = document.getElementById('purr-btn');
+    const complimentBox = document.getElementById('compliment-box');
+    const complimentText = document.getElementById('compliment-text');
+
+    let lastIndex = -1;
+
+    purrBtn.addEventListener('click', (e) => {
+      // 1. Pick randomized compliment (avoiding direct repetition)
+      let index;
+      do {
+        index = Math.floor(Math.random() * compliments.length);
+      } while (index === lastIndex && compliments.length > 1);
+      lastIndex = index;
+
+      complimentText.innerText = compliments[index];
+
+      // Show box with animation
+      complimentBox.classList.remove('hidden');
+      setTimeout(() => {
+        complimentBox.classList.remove('scale-95', 'opacity-0');
+        complimentBox.classList.add('scale-100', 'opacity-100');
+      }, 10);
+
+      // 2. Visual "Purr~" Toast & Floating Paw Effect
+      createPurrVisualEffect(e);
+
+      // 3. Trigger gentle confetti burst
+      confetti({
+        particleCount: 25,
+        spread: 50,
+        origin: {
+          x: e.clientX / window.innerWidth,
+          y: e.clientY / window.innerHeight
+        },
+        colors: ['#C8D6AF', '#D6C7E4', '#FAF7F2']
+      });
+    });
+
+    function createPurrVisualEffect(e) {
+      const rect = purrBtn.getBoundingClientRect();
+      const x = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+      const y = rect.top;
+
+      // Toast Purr
+      const toast = document.createElement('div');
+      toast.className = 'purr-toast fixed z-50 text-sage-800 font-serif font-bold text-lg bg-white/95 backdrop-blur px-4 py-2 rounded-full border border-sage-300 shadow-lg flex items-center gap-1.5 pointer-events-none';
+      toast.style.left = `${x}px`;
+      toast.style.top = `${y - 10}px`;
+      toast.innerHTML = '<span>Purr~ 🐾</span>';
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 1400);
+    }
+  </script>
+</body>
+</html>
